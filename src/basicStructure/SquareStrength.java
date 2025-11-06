@@ -1,4 +1,4 @@
-package game;
+package basicStructure;
 
 public enum SquareStrength {
     WEAK(1),

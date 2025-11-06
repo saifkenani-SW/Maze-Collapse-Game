@@ -1,4 +1,4 @@
-package game;
+package basicStructure;
 
 public class Pyramid {
     private Location location;

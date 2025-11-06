@@ -1,4 +1,4 @@
-package game;
+package basicStructure;
 
 public class Location {
    private int row;
