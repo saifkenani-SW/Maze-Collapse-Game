@@ -14,4 +14,12 @@ public enum SquareStrength {
     public int getMaxSteps() {
         return maxSteps;
     }
+    public SquareStrength weaken() {
+        return switch (this) {
+            case STRONG -> MEDIUM;
+            case MEDIUM -> WEAK;
+            case WEAK -> WEAK;
+        };
+    }
+
 }

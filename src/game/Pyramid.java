@@ -1,13 +1,16 @@
-package basicStructure;
+package game;
+
+import basicStructure.Location;
+
+import java.util.Objects;
 
 public class Pyramid {
     private Location location;
-    private boolean hasKey = false;
     private int numberOfKey = 0;
 
     public Pyramid(Location location, int numberOfKey) {
         this.location = location;
-        setNumberOfKey(numberOfKey);
+        this.numberOfKey=numberOfKey;
     }
 
     public Location getLocation() {
@@ -19,7 +22,7 @@ public class Pyramid {
     }
 
     public boolean hasKey() {
-        return hasKey;
+        return numberOfKey>0;
     }
 
     public int getNumberOfKey() {
@@ -28,15 +31,32 @@ public class Pyramid {
 
     public void setNumberOfKey(int numberOfKey) {
         this.numberOfKey = numberOfKey;
-        this.hasKey = numberOfKey > 0;
+    }
+
+    public Pyramid clone() {
+        return new Pyramid(location.clone(), numberOfKey);
     }
 
     @Override
     public String toString() {
         return "Pyramid{" +
                 "location=" + location +
-                ", hasKey=" + hasKey +
+                ", hasKey=" + hasKey() +
                 ", numberOfKey=" + numberOfKey +
                 '}';
     }
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Pyramid obj)) return false;
+
+        return Objects.equals(this.location, obj.location)
+                && this.hasKey() == obj.hasKey();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(location, hasKey(),numberOfKey);
+    }
+
 }
