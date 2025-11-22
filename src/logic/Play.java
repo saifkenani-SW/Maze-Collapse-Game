@@ -198,7 +198,7 @@
         }
 
         private boolean lossCheck(GameState gameState) {
-            NextState nextState = gameState.getNextState();
+            NextState nextState = gameState.getNextStates();
             boolean hasLegalMoves = !nextState.getSuccessors().isEmpty();
             return !hasLegalMoves;
         }

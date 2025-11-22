@@ -130,7 +130,7 @@ public class GameState {
         return ' ';
     }
 
-    public NextState getNextState() {
+    public NextState getNextStates() {
         NextState nextState = new NextState();
         Move move = new Move();
         for (Direction direction : Direction.values()) {
@@ -162,7 +162,7 @@ public class GameState {
     }
 
     private static Direction findDirection(GameState parent, GameState child) {
-        NextState successors = parent.getNextState();
+        NextState successors = parent.getNextStates();
 
         for (Map.Entry<Direction, GameState> entry : successors.getSuccessors().entrySet()) {
             if (entry.getValue().equals(child)) {
