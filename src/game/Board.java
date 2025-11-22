@@ -1,5 +1,6 @@
 package game;
 
+import basicStructure.SpecialSquare;
 import basicStructure.Square;
 
 import java.util.Arrays;
@@ -42,8 +43,11 @@ public class Board {
         Square[][] cloneGrid = new Square[rows][columns];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < columns; col++) {
-                Square square = grid[row][col];
-                cloneGrid[row][col] = new Square(square.getColor(), square.isLocked(), square.getState(), square.getType(), square.getStrength(), square.getHas());
+                if (grid[row][col] instanceof SpecialSquare) {
+                    cloneGrid[row][col] = ((SpecialSquare) grid[row][col]).clone();
+                }else {
+                cloneGrid[row][col] = grid[row][col].clone();
+            }
             }
         }
         return new Board(cloneGrid);

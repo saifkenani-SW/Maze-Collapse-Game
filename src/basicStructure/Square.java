@@ -6,17 +6,15 @@ import java.util.Objects;
 
 public class Square {
 
-    // private final Location location;
     private boolean isLocked = false;
     private final Color color;
     private SquareState state;
     private SquareType squareType;
     private SquareStrength squareStrength;
-    private Has has = Has.NOTHING;
+    private Has has;
 
 
-    public Square( /*Location location,*/ Color color, boolean isLocked, SquareState state, SquareType squareType, SquareStrength squareStrength, Has has) {
-        // this.location = location;
+    public Square(Color color, boolean isLocked, SquareState state, SquareType squareType, SquareStrength squareStrength, Has has) {
         this.isLocked = isLocked;
         this.color = color;
         this.squareStrength = squareStrength;
@@ -27,14 +25,9 @@ public class Square {
         this.has = has;
     }
 
-    public Square(/*Location location*/) {
-        this(/*location,*/ Color.WHITE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
+    public Square() {
+        this(Color.WHITE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
     }
-
-//    public Location getLocation() {
-//        return location;
-//    }
-
 
     public boolean isLocked() {
         return isLocked;
@@ -96,6 +89,10 @@ public class Square {
         return squareType == SquareType.START;
     }
 
+    public Square clone() {
+        return new Square(color, isLocked, state, squareType, squareStrength, has);
+    }
+
     public Square clonSquare() {
         return new Square(
                 this.color,
@@ -107,11 +104,9 @@ public class Square {
         );
     }
 
-
     @Override
     public String toString() {
         return "Square{" +
-                // "location=" + location +
                 ", isLocked=" + isLocked +
                 ", color=" + color +
                 ", state=" + state +
@@ -139,5 +134,19 @@ public class Square {
     public int hashCode() {
         return Objects.hash(state, squareType, squareStrength, has, isLocked, color);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
