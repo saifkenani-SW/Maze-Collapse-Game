@@ -130,6 +130,48 @@ public class GameState {
         return ' ';
     }
 
+    public NextState getNextState() {
+        NextState nextState = new NextState();
+        Move move = new Move();
+        for (Direction direction : Direction.values()) {
+            GameState resultantState = move.move(this, direction);
+            if (resultantState != null) {
+                nextState.addState(this, resultantState,direction);
+            }
+        }
+
+        return nextState;
+    }
+
+    public List<Direction> directions() {
+        GameState state=this;
+        List<Direction> path = new LinkedList<>();
+        GameState parentState = state.getParent();
+
+        while (parentState != null) {
+            System.out.println(state);
+
+            Direction direction = findDirection(parentState, state);
+            path.add(direction);
+            state = parentState;
+            parentState = state.getParent();
+        }
+        Collections.reverse(path);
+
+        return path;
+    }
+
+    private static Direction findDirection(GameState parent, GameState child) {
+        NextState successors = parent.getNextState();
+
+        for (Map.Entry<Direction, GameState> entry : successors.getSuccessors().entrySet()) {
+            if (entry.getValue().equals(child)) {
+                return entry.getKey();
+            }
+        }
+
+        return null;
+    }
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

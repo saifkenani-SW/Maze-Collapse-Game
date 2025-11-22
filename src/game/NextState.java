@@ -20,5 +20,4 @@ public class NextState {
     public GameState getValue(Direction direction) {
         return successors.get(direction);
     }
-    //GameState upState = nextStates.get(Direction.UP);
 }
