@@ -1,13 +1,13 @@
 package game;
-import basicStructure.Color;
-import basicStructure.Square;
-import basicStructure.SquareState;
-import basicStructure.SquareType;
-import basicStructure.SquareStrength;
-import basicStructure.Has;
-import basicStructure.Location;
+import basicStructure.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Levels {
    private Board boardSolvableNonCentral = new Board(5, 5, (row, col) -> {
+       Map<Location,Square> map=new HashMap<>();
+       SpecialSquare specialSquare;
 
         if (row == 1 && col == 1) {
             return new Square(Color.GREEN, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.WEAK, Has.NOTHING);
@@ -25,10 +25,18 @@ public class Levels {
             return new Square(Color.GREEN, false, SquareState.NOT_COLLAPSED, SquareType.END, SquareStrength.WEAK, Has.NOTHING);
         }
 
-        if (row == 2 && col == 2) {
-            return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.VOID, SquareStrength.WEAK, Has.NOTHING);
-        }if (row == 4 && col == 2) {
+        if (row == 0 && col == 3) {
+            map.put(new Location(2,2),new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.MEDIUM, Has.NOTHING));
+            map.put(new Location(2,1),new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.MEDIUM, Has.NOTHING));
+            Square square=  new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
+            specialSquare=new SpecialSquare(square,map);
+            return specialSquare;
+        }if ((row == 4 && col == 2)||(row == 4 && col == 3)) {
             return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.MEDIUM, Has.NOTHING);
+        }
+        if ((row==2&&col==2)||row==2&&col==1){
+            return new Square(Color.BLUE, false, SquareState.NOT_COLLAPSED, SquareType.VOID, SquareStrength.WEAK, Has.NOTHING);
+
         }
 
         return new Square(Color.BLUE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
