@@ -5,6 +5,9 @@ import game.Board;
 import game.GameState;
 import game.Pyramid;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Move {
 
 
@@ -161,7 +164,7 @@ public class Move {
             Square previousSquare = board.getSquare(oldRow, oldCol);
             handleSquareAfterLeaving(previousSquare);
             Square nextSquare = board.getSquare(newRow, newCol);
-            handleSquareAfterArrival(nextSquare, pyramid);
+            handleSquareAfterArrival(nextSquare, pyramid,board);
             pyramid.setLocation(new Location(newRow, newCol));
 
             return nextState;
@@ -175,7 +178,7 @@ public class Move {
         else square.setState(SquareState.COLLAPSED);
     }
 
-    private void handleSquareAfterArrival(Square square, Pyramid pyramid) {
+    private void handleSquareAfterArrival(Square square, Pyramid pyramid,Board board) {
         if (square.getHas() == Has.KEY) {
             square.setHas(Has.NOTHING);
             pyramid.setNumberOfKey(pyramid.getNumberOfKey() + 1);
@@ -183,6 +186,12 @@ public class Move {
         if (square.isLocked()) {
             square.setLocked(false);
             pyramid.setNumberOfKey(pyramid.getNumberOfKey() - 1);
+        }
+        if (square instanceof SpecialSquare){
+            SpecialSquare specialSquare = (SpecialSquare) square;
+            for (Map.Entry<Location, Square> entry : specialSquare.getSuccessors().entrySet()) {
+                board.getGrid()[entry.getKey().getRow()][entry.getKey().getColumn()]=entry.getValue();
+            }
         }
 
     }
