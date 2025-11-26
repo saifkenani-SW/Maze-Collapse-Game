@@ -35,11 +35,16 @@ public class GameState {
     }
 
     public boolean checkWining() {
+        Square[][]squares=board.getGrid();
 
-        if (!isAllCollapsed()) {
+
+        // Perfect !!!
+        return squares[pyramid.getLocation().getRow()][pyramid.getLocation().getColumn()].isEnd();
+
+        /*if (!isAllCollapsed()) {
             return false;
         }
-        return true;
+        return true;*/
     }
 
     public GameState clone() {
@@ -130,13 +135,13 @@ public class GameState {
         return ' ';
     }
 
-    public NextState getNextStates() {
-        NextState nextState = new NextState();
+    public NextStates getNextStates() {
+        NextStates nextState = new NextStates();
         Move move = new Move();
         for (Direction direction : Direction.values()) {
-            GameState resultantState = move.move(this, direction);
-            if (resultantState != null) {
-                nextState.addState(this, resultantState,direction);
+            GameState result = move.move(this, direction);
+            if (result != null) {
+                nextState.addState(this, result,direction);
             }
         }
 
@@ -162,7 +167,7 @@ public class GameState {
     }
 
     private static Direction findDirection(GameState parent, GameState child) {
-        NextState successors = parent.getNextStates();
+        NextStates successors = parent.getNextStates();
 
         for (Map.Entry<Direction, GameState> entry : successors.getSuccessors().entrySet()) {
             if (entry.getValue().equals(child)) {

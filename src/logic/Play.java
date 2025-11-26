@@ -3,7 +3,7 @@
     import basicStructure.*;
     import game.Board;
     import game.GameState;
-    import game.NextState;
+    import game.NextStates;
     import game.Pyramid;
 
     import java.util.HashMap;
@@ -198,8 +198,8 @@
         }
 
         private boolean lossCheck(GameState gameState) {
-            NextState nextState = gameState.getNextStates();
-            boolean hasLegalMoves = !nextState.getSuccessors().isEmpty();
+            NextStates nextStates = gameState.getNextStates();
+            boolean hasLegalMoves = !nextStates.getSuccessors().isEmpty();
             return !hasLegalMoves;
         }
 

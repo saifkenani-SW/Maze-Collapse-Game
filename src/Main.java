@@ -1,4 +1,6 @@
-import algorithim.DFS;
+import algorithim.BFS;
+import algorithim.DFSLoop;
+import algorithim.DFSRecursion;
 import basicStructure.*;
 import game.Board;
 import game.GameState;
@@ -21,15 +23,15 @@ public class Main {
         Play play = new Play();
 
      //   play.playRecursion(level1.getGameStateSolvableNonCentral());
-     //   new DFS(level1.getGameStateSolvableNonCentral());
+     //   new DFSLoop(level1.getGameStateSolvableNonCentral());
        String path = "src/seed1.txt";
-        //  new DFS((new MakeState().importFromFile(path)));
+         new BFS((new MakeState().importFromFile(path)));
         long endTime = System.currentTimeMillis();
 
         System.out.println("Time "+(endTime - startTime));
-    //    new DFS(level1.getGameStateSolvableNonCentral());
+    //    new DFSLoop(level1.getGameStateSolvableNonCentral());
          // play.playLoop(new MakeState().importFromFile(path));
-       play.playLoop(level1.getGameStateSolvableNonCentral());
+       //play.playLoop(level1.getGameStateSolvableNonCentral());
 
 
         //play.playLoop(new MakeState().seed());

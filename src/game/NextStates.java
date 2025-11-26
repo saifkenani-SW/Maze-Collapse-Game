@@ -5,7 +5,7 @@ import logic.Direction;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NextState {
+public class NextStates {
     private final Map<Direction, GameState> successors = new HashMap<>();
 
     public void addState(GameState parent, GameState gameState, Direction direction) {
