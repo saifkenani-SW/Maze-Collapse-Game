@@ -12,7 +12,7 @@
 
     public class Play {
 
-        Move move = new Move();
+        Move move = new Move(true);
         Scanner scanner = new Scanner(System.in);
         Map<Location,Square> map=new HashMap<>();
         SpecialSquare specialSquare;
@@ -198,7 +198,7 @@
         }
 
         private boolean lossCheck(GameState gameState) {
-            NextStates nextStates = gameState.getNextStates();
+            NextStates nextStates = gameState.getNextStates(true);
             boolean hasLegalMoves = !nextStates.getSuccessors().isEmpty();
             return !hasLegalMoves;
         }
