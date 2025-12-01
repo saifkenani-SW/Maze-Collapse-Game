@@ -93,17 +93,6 @@ public class Square {
         return new Square(color, isLocked, state, squareType, squareStrength, has);
     }
 
-    public Square clonSquare() {
-        return new Square(
-                this.color,
-                this.isLocked,
-                this.state,
-                this.squareType,
-                this.squareStrength,
-                this.has
-        );
-    }
-
     @Override
     public String toString() {
         return "Square{" +
