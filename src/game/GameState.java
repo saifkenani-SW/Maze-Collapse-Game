@@ -35,7 +35,7 @@ public class GameState {
     }
 
     public boolean checkWining() {
-        Square[][]squares=board.getGrid();
+        Square[][] squares = board.getGrid();
 
 
         // Perfect !!!
@@ -100,6 +100,7 @@ public class GameState {
 
         return sb.toString();
     }
+
     private char getSquareContent(Square square, int row, int col) {
 
         Location pyramidLocation = pyramid.getLocation();
@@ -135,48 +136,19 @@ public class GameState {
         return ' ';
     }
 
-    public NextStates getNextStates() {
+    public NextStates getNextStates(boolean requireCollapseBeforeEnd) {
         NextStates nextState = new NextStates();
-        Move move = new Move();
+        Move move = new Move(requireCollapseBeforeEnd);
         for (Direction direction : Direction.values()) {
             GameState result = move.move(this, direction);
             if (result != null) {
-                nextState.addState(this, result,direction);
+                nextState.addState(this, result, direction);
             }
         }
 
         return nextState;
     }
 
-    public List<Direction> directions() {
-        GameState state=this;
-        List<Direction> path = new LinkedList<>();
-        GameState parentState = state.getParent();
-
-        while (parentState != null) {
-            System.out.println(state);
-
-            Direction direction = findDirection(parentState, state);
-            path.add(direction);
-            state = parentState;
-            parentState = state.getParent();
-        }
-        Collections.reverse(path);
-
-        return path;
-    }
-
-    private static Direction findDirection(GameState parent, GameState child) {
-        NextStates successors = parent.getNextStates();
-
-        for (Map.Entry<Direction, GameState> entry : successors.getSuccessors().entrySet()) {
-            if (entry.getValue().equals(child)) {
-                return entry.getKey();
-            }
-        }
-
-        return null;
-    }
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
