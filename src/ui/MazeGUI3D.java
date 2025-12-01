@@ -12,7 +12,7 @@ import java.awt.*;
 public class MazeGUI3D extends JFrame {
 
     private GameState gameState;
-    private final Move move = new Move();
+    private final Move move = new Move(true);
     private final Levels levels = new Levels();
     private Maze3DPanel drawPanel;
     private Direction playerDir = Direction.UP;
@@ -66,7 +66,7 @@ public class MazeGUI3D extends JFrame {
                 JOptionPane.showMessageDialog(this, "🎉 You WIN!");
             }
 
-            if (gameState.getNextStates().getSuccessors().isEmpty() && !gameState.checkWining()) {
+            if (gameState.getNextStates(true).getSuccessors().isEmpty() && !gameState.checkWining()) {
                 JOptionPane.showMessageDialog(this, "❌ No moves left — You LOSE!");
             }
         }
