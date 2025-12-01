@@ -9,9 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Move {
+    private final boolean requireCollapseBeforeEnd;
 
 
-    public Move() {
+    public Move(boolean requireCollapseBeforeEnd) {
+        this.requireCollapseBeforeEnd = requireCollapseBeforeEnd;
     }
 
 
@@ -42,7 +44,7 @@ public class Move {
         if (square.isLocked() && !pyramid.hasKey()) {
             return false;
         }
-        if (square.isEnd() && !canMoveHelper(board, pyramid)) {
+        if (square.isEnd() && requireCollapseBeforeEnd && !canMoveHelper(board, pyramid)) {
             return false;
         }
 
@@ -164,7 +166,7 @@ public class Move {
             Square previousSquare = board.getSquare(oldRow, oldCol);
             handleSquareAfterLeaving(previousSquare);
             Square nextSquare = board.getSquare(newRow, newCol);
-            handleSquareAfterArrival(nextSquare, pyramid,board);
+            handleSquareAfterArrival(nextSquare, pyramid, board);
             pyramid.setLocation(new Location(newRow, newCol));
 
             return nextState;
@@ -178,7 +180,7 @@ public class Move {
         else square.setState(SquareState.COLLAPSED);
     }
 
-    private void handleSquareAfterArrival(Square square, Pyramid pyramid,Board board) {
+    private void handleSquareAfterArrival(Square square, Pyramid pyramid, Board board) {
         if (square.getHas() == Has.KEY) {
             square.setHas(Has.NOTHING);
             pyramid.setNumberOfKey(pyramid.getNumberOfKey() + 1);
@@ -187,10 +189,10 @@ public class Move {
             square.setLocked(false);
             pyramid.setNumberOfKey(pyramid.getNumberOfKey() - 1);
         }
-        if (square instanceof SpecialSquare){
+        if (square instanceof SpecialSquare) {
             SpecialSquare specialSquare = (SpecialSquare) square;
             for (Map.Entry<Location, Square> entry : specialSquare.getSuccessors().entrySet()) {
-                board.getGrid()[entry.getKey().getRow()][entry.getKey().getColumn()]=entry.getValue();
+                board.getGrid()[entry.getKey().getRow()][entry.getKey().getColumn()] = entry.getValue();
             }
         }
 
