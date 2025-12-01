@@ -51,12 +51,12 @@ public class Pyramid {
         if (!(object instanceof Pyramid obj)) return false;
 
         return Objects.equals(this.location, obj.location)
-                && this.hasKey() == obj.hasKey();
+                && this.numberOfKey == obj.numberOfKey;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(location, hasKey(),numberOfKey);
+        return Objects.hash(location, numberOfKey);
     }
 
 }
