@@ -45,7 +45,7 @@ public class SpecialSquare extends  Square{
     public SpecialSquare clone(){
         Map <Location,Square>cloneMap=new HashMap<>();
         for (Map.Entry<Location, Square> entry : successors.entrySet()) {
-            cloneMap.put(entry.getKey().clone(),entry.getValue().clonSquare());
+            cloneMap.put(entry.getKey().clone(),entry.getValue().clone());
         }
         return new SpecialSquare(super.clone(),cloneMap);
     }
