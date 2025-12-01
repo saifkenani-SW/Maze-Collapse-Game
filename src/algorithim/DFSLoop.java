@@ -24,13 +24,13 @@ int numNodesGenerated=0;
             GameState state = stack.pop();
             System.out.println(state);
             if (state.checkWining()) {
-                System.out.println(new Common().getDirection(state));
+                System.out.println(new Common(true).getDirection(state));
                 System.out.println("number of visited node is +"+ visited.size());// == numNodesVisited
                // System.out.println("number of visited node is +"+ numNodesVisited);// == numNodesVisited
                 System.out.println("number of Generated node is +"+ numNodesGenerated);
                 return;
             }
-            NextStates nextStates = state.getNextStates();
+            NextStates nextStates = state.getNextStates(true);
             numNodesGenerated+=nextStates.getSuccessors().size();
             for (Map.Entry<Direction, GameState> entry : nextStates.getSuccessors().entrySet()) {
                 pushToStack(stack, state, entry.getValue());
