@@ -6,8 +6,14 @@ import logic.Direction;
 import java.util.*;
 
 public class Common {
-   private ArrayList<Direction> directions = new ArrayList<>();
-    /*public static String getPath(GameState state) {
+    private ArrayList<Direction> directions = new ArrayList<>();
+    boolean requireCollapseBeforeEnd;
+
+    public Common(boolean requireCollapseBeforeEnd) {
+        this.requireCollapseBeforeEnd = requireCollapseBeforeEnd;
+    }
+
+   /*public static String getPath(GameState state) {
         StringBuilder path = new StringBuilder();
         List<Direction> directions = state.directions();
 
@@ -18,7 +24,7 @@ public class Common {
         return path.toString().trim();
     }*/
 
-    public ArrayList<Direction> getDirection(GameState state){
+    public ArrayList<Direction> getDirection(GameState state) {
         if (state.getParent() == null) {
 /*
             System.out.println(state+"\n FFFFIIIIRRRRCCCC");
@@ -27,10 +33,11 @@ public class Common {
 
             return directions;
         }
-        Map<Direction, GameState> map = state.getParent().getNextStates().getSuccessors();
+        Map<Direction, GameState> map = state.getParent().getNextStates( requireCollapseBeforeEnd).
+        getSuccessors();
         for (Map.Entry<Direction, GameState> entry : map.entrySet()) {
             if (entry.getValue().equals(state)) {
-               // System.out.println(state);
+                // System.out.println(state);
                 directions.add(entry.getKey());
                 return getDirection(state.getParent());
             }
