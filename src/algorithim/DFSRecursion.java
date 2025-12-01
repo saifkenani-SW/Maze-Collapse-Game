@@ -15,11 +15,11 @@ public class DFSRecursion {
     }
 
     private void recursion(GameState state) {
-        Map<Direction,GameState>successors=state.getNextStates().getSuccessors();
+        Map<Direction,GameState>successors=state.getNextStates(true).getSuccessors();
         if (state.checkWining()){
             System.out.println(state);
           //  System.out.println(Common.getPath(state));
-            ArrayList<Direction>path=new Common().getDirection(state);
+            ArrayList<Direction>path=new Common(true).getDirection(state);
             System.out.println(path);
         }
         if (successors.isEmpty()){
