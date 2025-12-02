@@ -1,6 +1,7 @@
 import algorithim.BFS;
 import algorithim.DFSLoop;
 import algorithim.DFSRecursion;
+import algorithim.UCS;
 import basicStructure.*;
 import game.Board;
 import game.GameState;
@@ -25,7 +26,10 @@ public class Main {
      //   play.playRecursion(level1.getGameStateSolvableNonCentral());
      //   new DFSLoop(level1.getGameStateSolvableNonCentral());
        String path = "src/seed1.txt";
-         new BFS((new MakeState().importFromFile(path)));
+       String boardPath = "src/board1.txt";
+       String coloresPath = "src/colors1.txt";
+        // new BFS((new MakeState().importFromFile(path)));
+         new UCS().search(new MakeState().importFromFiles(boardPath,coloresPath));
         long endTime = System.currentTimeMillis();
 
         System.out.println("Time "+(endTime - startTime));
