@@ -118,25 +118,46 @@ public class GameState {
         int rows = grid.length;
         int columns = grid[0].length;
 
+        // 1) نحسب الليبل لكل خلية (مثلاً: RED(4), WHITE(1), P(3), E(1)...)
+        String[][] labels = new String[rows][columns];
+        int maxLen = 0;
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                String label = getColorLabelWithCost(grid[r][c], r, c);
+                labels[r][c] = label;
+                if (label.length() > maxLen) {
+                    maxLen = label.length();
+                }
+            }
+        }
+
+        // 2) كل خلية: مسافة + النص (مبطّن) + مسافة
+        int cellInnerWidth = maxLen + 2;
         StringBuilder sb = new StringBuilder();
 
-        String topBottomLine = "+---";
+        String cellBorder = "+" + "-".repeat(cellInnerWidth);
+
         for (int r = 0; r < rows; r++) {
 
+            // خط علوي لكل صف
             for (int c = 0; c < columns; c++) {
-                sb.append(topBottomLine);
+                sb.append(cellBorder);
             }
             sb.append("+\n");
 
+            // سطر المحتوى
             for (int c = 0; c < columns; c++) {
-                char colorChar = getColorChar(grid[r][c].getColor());
-                sb.append("| ").append(colorChar).append(" ");
+                String label = labels[r][c];
+                String padded = String.format("%-" + maxLen + "s", label); // padding يمين
+                sb.append("| ").append(padded).append(" ");
             }
             sb.append("|\n");
         }
 
+        // الخط السفلي الأخير
         for (int c = 0; c < columns; c++) {
-            sb.append(topBottomLine);
+            sb.append(cellBorder);
         }
         sb.append("+\n");
 
@@ -180,18 +201,34 @@ public class GameState {
         return ' ';
     }
 
-    private char getColorChar(Color color) {
-        return switch (color) {
-            case RED -> 'R';
-            case BLUE -> 'L';
-            case GREEN -> 'G';
-            case YELLOW -> 'Y';
-            case WHITE -> 'W';
-            case BLACK -> 'B';
-            case PINK -> 'P';
-            case PURPLE -> 'U';
+    private String getColorLabelWithCost(Square square, int row, int col) {
+        Color color = square.getColor();
+        int cost = color.getComplexity();
+
+        Location pyramidLoc = pyramid.getLocation();
+        if (pyramidLoc.getRow() == row && pyramidLoc.getColumn() == col) {
+            return "PLAYER(" + cost + ")";
+        }
+
+        if (square.getType() == SquareType.END) {
+            return "END(" + cost + ")";
+        }
+
+        String colorName = switch (color) {
+            case RED -> "RED";
+            case GREEN -> "GREEN";
+            case WHITE -> "WHITE";
+            case YELLOW -> "YELLOW";
+            case BLACK -> "BLACK";
+            case PINK -> "PINK";
+            case PURPLE -> "PURPLE";
+            case BLUE -> "BLUE";
         };
+
+        return colorName + "(" + cost + ")";
     }
+
+
 
 
     public NextStates getNextStates(boolean requireCollapseBeforeEnd) {
