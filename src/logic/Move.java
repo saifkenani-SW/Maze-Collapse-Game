@@ -10,10 +10,12 @@ import java.util.Map;
 
 public class Move {
     private final boolean requireCollapseBeforeEnd;
+    private final boolean applyCollapsePhysics;
 
 
     public Move(boolean requireCollapseBeforeEnd) {
         this.requireCollapseBeforeEnd = requireCollapseBeforeEnd;
+        this.applyCollapsePhysics = requireCollapseBeforeEnd;
     }
 
 
@@ -176,8 +178,10 @@ public class Move {
     }
 
     private void handleSquareAfterLeaving(Square square) {
-        if (square.getStrength() != SquareStrength.WEAK) square.setStrength(square.getStrength().weaken());
-        else square.setState(SquareState.COLLAPSED);
+        if (applyCollapsePhysics) {
+            if (square.getStrength() != SquareStrength.WEAK) square.setStrength(square.getStrength().weaken());
+            else square.setState(SquareState.COLLAPSED);
+        }
     }
 
     private void handleSquareAfterArrival(Square square, Pyramid pyramid, Board board) {
