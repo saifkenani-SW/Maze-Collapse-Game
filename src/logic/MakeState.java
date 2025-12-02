@@ -9,9 +9,19 @@ import java.io.*;
 
 public class MakeState {
 
+    GameState gameState;
+
     public GameState importFromFile(String filePath) throws IOException {
-        return seed(filePath);
+         gameState= seed(filePath);
+         return gameState;
     }
+
+    public GameState importFromFiles(String boardFile, String colorsFile) throws IOException {
+        GameState state = seed(boardFile);
+        applyColors(state, colorsFile);
+        return state;
+    }
+
 
 
     public GameState seed(String filePath) throws IOException {
@@ -92,4 +102,59 @@ public class MakeState {
         }
         return null;
     }
+
+    private void applyColors(GameState state, String colorsFilePath) throws IOException {
+        Board board = state.getBoard();
+        Square[][] squares = board.getGrid();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(colorsFilePath))) {
+            int row = 0;
+            String line;
+
+            while ((line = reader.readLine()) != null && row < squares.length) {
+                String[] colorCodes = line.split(" ");
+
+                for (int col = 0; col < colorCodes.length && col < squares[0].length; col++) {
+                    Color color = parseColor(colorCodes[col]);
+                    if (color != null && squares[row][col] != null) {
+                        squares[row][col] = updateSquareColor(squares[row][col], color);
+                    }
+                }
+                row++;
+            }
+        }
+    }
+
+    private Color parseColor(String colorCode) {
+        if (colorCode == null || colorCode.isEmpty()) {
+            return null;
+        }
+
+        return switch (colorCode.toUpperCase()) {
+            case "R", "RED" -> Color.RED;
+            case "B", "BLACK" -> Color.BLACK;
+            case "W", "WHITE" -> Color.WHITE;
+            case "BL", "BLUE" -> Color.BLUE;
+            case "G", "GREEN" -> Color.GREEN;
+            case "Y", "YELLOW" -> Color.YELLOW;
+            case "P", "PINK" -> Color.PINK;
+            case "PU", "PURPLE" -> Color.PURPLE;
+            default -> null;
+        };
+    }
+
+    private Square updateSquareColor(Square original, Color newColor) {
+        if (original == null) return null;
+
+        return new Square(
+                newColor,
+                original.isLocked(),
+                original.getState(),
+                original.getType(),
+                original.getStrength(),
+                original.getHas()
+        );
+    }
+
+
 }
