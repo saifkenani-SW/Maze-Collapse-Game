@@ -70,6 +70,19 @@ public class GameState {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("=== BOARD (TILES) ===\n");
+        sb.append(renderTilesBoard());
+        sb.append("\n");
+
+        sb.append("=== BOARD COLORS ===\n");
+        sb.append(renderColorBoard());
+
+        return sb.toString();
+    }
+
+    private String renderTilesBoard() {
         Square[][] grid = board.getGrid();
         int rows = grid.length;
         int columns = grid[0].length;
@@ -87,7 +100,6 @@ public class GameState {
 
             for (int c = 0; c < columns; c++) {
                 char content = getSquareContent(grid[r][c], r, c);
-
                 sb.append(String.format(middleLineFormat, content));
             }
             sb.append("|\n");
@@ -100,6 +112,38 @@ public class GameState {
 
         return sb.toString();
     }
+
+    private String renderColorBoard() {
+        Square[][] grid = board.getGrid();
+        int rows = grid.length;
+        int columns = grid[0].length;
+
+        StringBuilder sb = new StringBuilder();
+
+        String topBottomLine = "+---";
+        for (int r = 0; r < rows; r++) {
+
+            for (int c = 0; c < columns; c++) {
+                sb.append(topBottomLine);
+            }
+            sb.append("+\n");
+
+            for (int c = 0; c < columns; c++) {
+                char colorChar = getColorChar(grid[r][c].getColor());
+                sb.append("| ").append(colorChar).append(" ");
+            }
+            sb.append("|\n");
+        }
+
+        for (int c = 0; c < columns; c++) {
+            sb.append(topBottomLine);
+        }
+        sb.append("+\n");
+
+        return sb.toString();
+    }
+
+
 
     private char getSquareContent(Square square, int row, int col) {
 
@@ -135,6 +179,20 @@ public class GameState {
             return '1';
         return ' ';
     }
+
+    private char getColorChar(Color color) {
+        return switch (color) {
+            case RED -> 'R';
+            case BLUE -> 'L';
+            case GREEN -> 'G';
+            case YELLOW -> 'Y';
+            case WHITE -> 'W';
+            case BLACK -> 'B';
+            case PINK -> 'P';
+            case PURPLE -> 'U';
+        };
+    }
+
 
     public NextStates getNextStates(boolean requireCollapseBeforeEnd) {
         NextStates nextState = new NextStates();
