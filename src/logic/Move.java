@@ -10,12 +10,12 @@ import java.util.Map;
 
 public class Move {
     private final boolean requireCollapseBeforeEnd;
-    private final boolean applyCollapsePhysics;
+    private final boolean applyCollapsePhysics=false;
 
 
     public Move(boolean requireCollapseBeforeEnd) {
-        this.requireCollapseBeforeEnd = requireCollapseBeforeEnd;
-        this.applyCollapsePhysics = requireCollapseBeforeEnd;
+        this.requireCollapseBeforeEnd = false;
+       // this.applyCollapsePhysics = requireCollapseBeforeEnd;
     }
 
 
