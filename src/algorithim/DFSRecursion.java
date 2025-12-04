@@ -6,39 +6,42 @@ import logic.Direction;
 import java.util.*;
 
 public class DFSRecursion {
-   private final Set<GameState> visited=new HashSet<>();
+    private final Set<GameState> visited = new HashSet<>();
 
-    public DFSRecursion(GameState root) {
-        root.setParent(null);
-        visited.add(root);
-        recursion(root);
+    public DFSRecursion() {
     }
 
-    private void recursion(GameState state) {
-        Map<Direction,GameState>successors=state.getNextStates(true).getSuccessors();
-        if (state.checkWining()){
-            System.out.println(state);
-          //  System.out.println(Common.getPath(state));
-            ArrayList<Direction>path=new Common(true).getDirection(state);
-            System.out.println(path);
+    public GameState DFSSearch(GameState state) {
+        if (state == null) return null;
+
+        Map<Direction, GameState> successors = state.getNextStates(true).getSuccessors();
+
+        if (state.checkWining()) {
+            new Common(false).showUI(state);
+            return state;
         }
-        if (successors.isEmpty()){
-            return;
+
+        if (successors.isEmpty()) {
+            return null;
         }
-        for (Map.Entry<Direction,GameState>entry: successors.entrySet()){
-           GameState successor=entry.getValue();
-            if (addToVisited(state,successor)){
-            recursion(successor);
+
+        for (Map.Entry<Direction, GameState> entry : successors.entrySet()) {
+            GameState successor = entry.getValue();
+            if (addToVisited(state, successor)) {
+                GameState found = DFSSearch(successor);
+                if (found != null) {
+                    return found; // propagate the found state up the recursion
+                }
             }
         }
-
+        return null;
     }
 
-    private boolean addToVisited(GameState parent ,GameState state) {
-        if (!visited.contains(state)){
-          state.setParent(parent);
-         visited.add(state);
-         return true;
+    private boolean addToVisited(GameState parent, GameState state) {
+        if (!visited.contains(state)) {
+            state.setParent(parent);
+            visited.add(state);
+            return true;
         }
         return false;
     }
