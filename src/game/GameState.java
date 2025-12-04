@@ -6,15 +6,28 @@ import logic.Move;
 
 import java.util.*;
 
-public class GameState {
-
+public class GameState implements Comparable<GameState> {
     private final Board board;
     private final Pyramid pyramid;
     private GameState parent;
+    private int cost;
 
     public GameState(Board board, Pyramid pyramid) {
+        this(board, pyramid, Integer.MAX_VALUE);
+    }
+
+    public GameState(Board board, Pyramid pyramid, int cost) {
         this.pyramid = pyramid;
         this.board = board;
+        this.cost = cost;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public Board getBoard() {
@@ -50,7 +63,7 @@ public class GameState {
     public GameState clone() {
         Board cloneBoard = board.clone();
         Pyramid clonePyramid = pyramid.clone();
-        return new GameState(cloneBoard, clonePyramid);
+        return new GameState(cloneBoard, clonePyramid, this.cost);
     }
 
     private boolean isAllCollapsed() {
@@ -165,7 +178,6 @@ public class GameState {
     }
 
 
-
     private char getSquareContent(Square square, int row, int col) {
 
         Location pyramidLocation = pyramid.getLocation();
@@ -204,14 +216,17 @@ public class GameState {
     private String getColorLabelWithCost(Square square, int row, int col) {
         Color color = square.getColor();
         int cost = color.getComplexity();
+        if (square.getType() == SquareType.VOID) {
+            return "#######";
+        }
 
         Location pyramidLoc = pyramid.getLocation();
         if (pyramidLoc.getRow() == row && pyramidLoc.getColumn() == col) {
-            return "PLAYER(" + cost + ")";
+            return "PLAYER";
         }
 
         if (square.getType() == SquareType.END) {
-            return "END(" + cost + ")";
+            return "END";
         }
 
         String colorName = switch (color) {
@@ -221,14 +236,12 @@ public class GameState {
             case YELLOW -> "YELLOW";
             case BLACK -> "BLACK";
             case PINK -> "PINK";
-            case PURPLE -> "PURPLE";
+            case DARK -> "DARK";
             case BLUE -> "BLUE";
         };
 
         return colorName + "(" + cost + ")";
     }
-
-
 
 
     public NextStates getNextStates(boolean requireCollapseBeforeEnd) {
@@ -257,4 +270,8 @@ public class GameState {
         return Objects.hash(pyramid, board);
     }
 
+    @Override
+    public int compareTo(GameState o) {
+        return this.cost- o.cost;
+    }
 }
