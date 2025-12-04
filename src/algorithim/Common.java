@@ -2,49 +2,47 @@ package algorithim;
 
 import game.GameState;
 import logic.Direction;
+import ui.GameSolverFrame;
+import ui.Maze2DPanel;
+import ui.SearchFrame;
 
 import java.util.*;
 
 public class Common {
-    private ArrayList<Direction> directions = new ArrayList<>();
+
     boolean requireCollapseBeforeEnd;
 
     public Common(boolean requireCollapseBeforeEnd) {
         this.requireCollapseBeforeEnd = requireCollapseBeforeEnd;
     }
 
-   /*public static String getPath(GameState state) {
-        StringBuilder path = new StringBuilder();
-        List<Direction> directions = state.directions();
+    public List<Direction> getDirection(GameState state) {
+        List<Direction> directions = new ArrayList<>();
+        GameState cur = state;
 
-        for (Direction direction : directions) {
-            path.append(direction.toString()).append(" ");
-        }
+        while (cur != null && cur.getParent() != null) {
+            GameState parent = cur.getParent();
+            Map<Direction, GameState> succ = parent.getNextStates(requireCollapseBeforeEnd).getSuccessors();
 
-        return path.toString().trim();
-    }*/
-
-    public ArrayList<Direction> getDirection(GameState state) {
-        if (state.getParent() == null) {
-/*
-            System.out.println(state+"\n FFFFIIIIRRRRCCCC");
-*/
-            Collections.reverse(directions);
-
-            return directions;
-        }
-        Map<Direction, GameState> map = state.getParent().getNextStates( requireCollapseBeforeEnd).
-        getSuccessors();
-        for (Map.Entry<Direction, GameState> entry : map.entrySet()) {
-            if (entry.getValue().equals(state)) {
-                // System.out.println(state);
-                directions.add(entry.getKey());
-                return getDirection(state.getParent());
+            Direction found = null;
+            for (Map.Entry<Direction, GameState> e : succ.entrySet()) {
+                if (e.getValue().equals(cur)) {
+                    found = e.getKey();
+                    break;
+                }
             }
-        }
-        Collections.reverse(directions);
 
+            if (found == null) break;
+            directions.add(found);
+            cur = parent;
+        }
+
+        Collections.reverse(directions);
         return directions;
+    }
+
+    public void showUI(GameState endState) {
+        GameSolverFrame.showUI(endState);
     }
 
 }
