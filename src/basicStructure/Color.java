@@ -4,11 +4,11 @@ public enum Color {
     RED(3),
     BLACK(5),
     WHITE(1),
-    BLUE(2),
+    BLUE(5),
     GREEN(4),
     YELLOW(2),
     PINK(3),
-    PURPLE(4);
+    DARK(10);
 
    // private final int complexity;
    private int complexity;
