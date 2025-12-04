@@ -76,7 +76,7 @@ public class MakeState {
         char option = c.charAt(0);
         switch (option) {
             case 'P' -> {
-                return new Square(Color.WHITE, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.WEAK, Has.NOTHING);
+                return new Square(Color.WHITE, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.MEDIUM, Has.NOTHING);
             }
             case 'E' -> {
                 return new Square(Color.WHITE, false, SquareState.NOT_COLLAPSED, SquareType.END, SquareStrength.WEAK, Has.NOTHING);
@@ -132,13 +132,14 @@ public class MakeState {
 
         return switch (colorCode.toUpperCase()) {
             case "R", "RED" -> Color.RED;
-            case "B", "BLACK" -> Color.BLACK;
+            case "B", "BLUE" -> Color.BLUE;
             case "W", "WHITE" -> Color.WHITE;
-            case "BL", "BLUE" -> Color.BLUE;
+            case "D", "DARK" -> Color.DARK;
+            case "BL", "BLACK" -> Color.BLACK;
             case "G", "GREEN" -> Color.GREEN;
             case "Y", "YELLOW" -> Color.YELLOW;
             case "P", "PINK" -> Color.PINK;
-            case "PU", "PURPLE" -> Color.PURPLE;
+            case "#", "####" -> Color.WHITE;
             default -> null;
         };
     }
