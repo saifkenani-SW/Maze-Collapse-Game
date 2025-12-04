@@ -1,7 +1,9 @@
 package game;
 
+import basicStructure.Location;
 import basicStructure.SpecialSquare;
 import basicStructure.Square;
+import basicStructure.SquareType;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
@@ -10,7 +12,15 @@ public class Board {
     private final Square[][] grid;
     private int columns;
     private int rows;
+    private Location endLocation;
 
+    public Location getEndLocation() {
+        return endLocation;
+    }
+
+    public void setEndLocation(Location endLocation) {
+        this.endLocation = endLocation;
+    }
 
     public Board(int rows, int cols, BiFunction<Integer, Integer, Square> factory) {
         grid = new Square[rows][cols];
@@ -32,6 +42,7 @@ public class Board {
         this.grid = grid;
         rows = grid.length;
         columns = grid[0].length;
+        this.endLocation=getEndLocationHelper();
     }
 
     public Square[][] getGrid() {
@@ -69,6 +80,17 @@ public class Board {
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(grid);
+    }
+    public Location getEndLocationHelper() {
+        Square[][] grid = getGrid();
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (grid[row][col].getType() == SquareType.END) {
+                    return new Location(row, col);
+                }
+            }
+        }
+        return null;
     }
 
 
