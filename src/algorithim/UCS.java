@@ -10,52 +10,54 @@ import java.util.*;
 public class UCS {
     private final Map<GameState, Integer> bestCost = new HashMap<>();
 
-    public void search(GameState start) {
+    public GameState UCSSearch(GameState start) throws InterruptedException {
         start.setCost(0);
         start.setParent(null);
 
-        PriorityQueue<GameState> frontier = new PriorityQueue<>();
-        frontier.add(start);
+        PriorityQueue<GameState> pq = new PriorityQueue<>();
+        pq.add(start);
         bestCost.put(start, 0);
 
         int numNodesVisited = 0, numNodesGenerated = 0;
 
-        while (!frontier.isEmpty()) {
-            GameState current = frontier.poll();
-            numNodesVisited++;
+        while (!pq.isEmpty()) {
+            GameState current = pq.poll();
             if (bestCost.get(current) < current.getCost()) {
                 continue;
             }
             if (current.checkWining()) {
-                System.out.println(new Common(false).getDirection(current));
-                System.err.println("\nGOAL FOUND! \n" +
-                        "Cost is " + current.getCost());
-                return;
+
+                new Common(false).showUI(current);
+
+                System.err.println("Solution found \n" +
+                        "The cost " + current.getCost());
+
+                System.out.println("numNodesVisited: " + bestCost.size());
+                System.out.println("numNodesGenerated: " +numNodesGenerated);
+                return current;
             }
 
-            NextStates nextStates = current.getNextStates(false);
-            numNodesGenerated += nextStates.getSuccessors().size();
+            Map<Direction,GameState> successors = current.getNextStates(false).getSuccessors();
+            numNodesGenerated +=successors.size();
 
-            for (GameState next : nextStates.getSuccessors().values()) {
-                if (next == null) continue;
-
+            for (GameState next : successors.values()) {
                 int newCost = current.getCost() + getStepCost(next);
 
-                Integer known = bestCost.get(next);
-                if (known == null || newCost < known) {
-                    GameState copy = next.clone();
-                    copy.setCost(newCost);
-                    copy.setParent(current);
-
-                    bestCost.put(copy, newCost);
-                    frontier.add(copy);
+                Integer found = bestCost.get(next);
+                if (found == null || newCost < found) {
+                    numNodesVisited++;
+                    next.setCost(newCost);
+                    next.setParent(current);
+                    bestCost.put(next, newCost);
+                    pq.add(next);
                 }
             }
         }
 
-        System.out.println("\n❌ No solution found.");
-        System.out.println("Total nodes numNodesVisited: " + numNodesVisited);
-        System.out.println("Total nodes numNodesGenerated: " + numNodesGenerated);
+        System.out.println("Not found solution");
+        System.out.println("numNodesVisited: " + numNodesVisited);
+        System.out.println("numNodesGenerated: " + numNodesGenerated);
+        return null;
     }
 
     private int getStepCost(GameState state) {
