@@ -1,10 +1,9 @@
 package algorithim;
 
 import game.GameState;
-import logic.Direction;
+import basicStructure.Direction;
 import ui.GameSolverFrame;
-import ui.Maze2DPanel;
-import ui.SearchFrame;
+
 
 import java.util.*;
 
@@ -18,23 +17,23 @@ public class Common {
 
     public List<Direction> getDirection(GameState state) {
         List<Direction> directions = new ArrayList<>();
-        GameState cur = state;
+        GameState current = state;
 
-        while (cur != null && cur.getParent() != null) {
-            GameState parent = cur.getParent();
-            Map<Direction, GameState> succ = parent.getNextStates(requireCollapseBeforeEnd).getSuccessors();
+        while (current != null && current.getParent() != null) {
+            GameState parent = current.getParent();
+            Map<Direction, GameState> successors = parent.getNextStates(requireCollapseBeforeEnd).getSuccessors();
 
             Direction found = null;
-            for (Map.Entry<Direction, GameState> e : succ.entrySet()) {
-                if (e.getValue().equals(cur)) {
-                    found = e.getKey();
+            for (Map.Entry<Direction, GameState> entry : successors.entrySet()) {
+                if (entry.getValue().equals(current)) {
+                    found = entry.getKey();
                     break;
                 }
             }
 
             if (found == null) break;
             directions.add(found);
-            cur = parent;
+            current = parent;
         }
 
         Collections.reverse(directions);
