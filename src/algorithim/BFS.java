@@ -2,9 +2,8 @@ package algorithim;
 
 import game.GameState;
 import game.NextStates;
-import logic.Direction;
+import basicStructure.Direction;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.*;
 
 public class BFS {
@@ -20,25 +19,21 @@ public class BFS {
 
     public GameState  BFSSearch(GameState root) throws InterruptedException {
         visited.add(root);
-        numNodesVisited++;
         Queue<GameState> queue =new LinkedList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
 
             GameState state = queue.poll();
-            System.out.println(state);
+
             if (state.checkWining()) {
                 new Common(true).showUI(state);
-
-                System.out.println(new Common(true).getDirection(state));
                 System.out.println("number of visited node is +"+ visited.size());// == numNodesVisited
-                // System.out.println("number of visited node is +"+ numNodesVisited);// == numNodesVisited
                 System.out.println("number of Generated node is +"+ numNodesGenerated);
                 return state;
             }
             NextStates nextStates = state.getNextStates(true);
             numNodesGenerated+=nextStates.getSuccessors().size();
-            for (Map.Entry<logic.Direction, GameState> entry : nextStates.getSuccessors().entrySet()) {
+            for (Map.Entry<Direction, GameState> entry : nextStates.getSuccessors().entrySet()) {
                 addToQueue(queue, state, entry.getValue());
             }
         }
