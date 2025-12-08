@@ -38,53 +38,9 @@
         GameState gameState = new GameState(board, new Pyramid(new Location(0, 0), 0));
 
 
-        Board board2 = new Board(10, 10, (row, col) -> {
-            if (row == 5 && col == 5)
-                return new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.STRONG, Has.NOTHING);
-            if (row == 5 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.END, SquareStrength.WEAK, Has.NOTHING);
-            if (row == 3 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.WEAK, Has.NOTHING);
 
-            else
-                return new Square(Color.BLUE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
-        });
 
-        Board board3 = new Board(10, 10, (row, col) -> {
-            if (row == 5 && col == 5)
-                return new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.STRONG, Has.NOTHING);
-            if (row == 5 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.END, SquareStrength.WEAK, Has.NOTHING);
-            if (row == 3 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.WEAK, Has.NOTHING);
 
-            else
-                return new Square(Color.BLUE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
-        });
-
-        Board board4 = new Board(10, 10, (row, col) -> {
-            if (row == 5 && col == 5)
-                return new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.STRONG, Has.NOTHING);
-            if (row == 5 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.END, SquareStrength.WEAK, Has.NOTHING);
-            if (row == 3 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.WEAK, Has.NOTHING);
-
-            else
-                return new Square(Color.BLUE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
-        });
-
-        Board board5 = new Board(10, 10, (row, col) -> {
-            if (row == 5 && col == 5)
-                return new Square(Color.RED, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.STRONG, Has.NOTHING);
-            if (row == 5 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.END, SquareStrength.WEAK, Has.NOTHING);
-            if (row == 3 && col == 2)
-                return new Square(Color.BLACK, false, SquareState.NOT_COLLAPSED, SquareType.START, SquareStrength.WEAK, Has.NOTHING);
-
-            else
-                return new Square(Color.BLUE, false, SquareState.NOT_COLLAPSED, SquareType.NORMAL, SquareStrength.WEAK, Has.NOTHING);
-        });
 
         public void playRecursion(GameState gameState) {
             GameState nextState;
@@ -199,8 +155,8 @@
 
         private boolean lossCheck(GameState gameState) {
             NextStates nextStates = gameState.getNextStates(true);
-            boolean hasLegalMoves = !nextStates.getSuccessors().isEmpty();
-            return !hasLegalMoves;
+          //  boolean hasLegalMoves = !nextStates.getSuccessors().isEmpty();
+            return nextStates.getSuccessors().isEmpty();
         }
 
     }
