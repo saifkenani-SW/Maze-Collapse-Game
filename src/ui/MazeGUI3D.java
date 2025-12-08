@@ -3,11 +3,13 @@ package ui;
 import game.GameState;
 import game.Levels;
 import game.Pyramid;
-import logic.Direction;
+import basicStructure.Direction;
+import logic.MakeState;
 import logic.Move;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MazeGUI3D extends JFrame {
 
@@ -17,7 +19,7 @@ public class MazeGUI3D extends JFrame {
     private Maze3DPanel drawPanel;
     private Direction playerDir = Direction.UP;
 
-    public MazeGUI3D(GameState state){
+    public MazeGUI3D(GameState state) throws IOException {
         this.gameState = state;
 
         setTitle("Maze Collapse – 3D View");
@@ -231,9 +233,34 @@ public class MazeGUI3D extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Levels lv = new Levels();
         GameState st = lv.getGameStateSolvableNonCentral();
-        new MazeGUI3D(st);
+
+        String boardPath1 = "src/levels/board1.txt";
+        String coloresPath1 = "src/levels/color1.txt";
+
+
+        String boardPath2 = "src/levels/board2.txt";
+        String coloresPath2 = "src/levels/color2.txt";
+
+
+
+        String boardPath3 = "src/levels/board3.txt";
+        String coloresPath3 = "src/levels/color3.txt";
+
+
+        String boardPath4 = "src/levels/board4.txt";
+        String coloresPath4 = "src/levels/color4.txt";
+
+
+        String boardPath5 = "src/levels/board5.txt";
+        String coloresPath5 = "src/levels/color5.txt";
+        GameState gameState1=new MakeState().importFromFiles(boardPath1,coloresPath1);
+        GameState gameState2=new MakeState().importFromFiles(boardPath2,coloresPath2);
+        GameState gameState3=new MakeState().importFromFiles(boardPath3,coloresPath3);
+        GameState gameState4=new MakeState().importFromFiles(boardPath4,coloresPath4);
+        GameState gameState5=new MakeState().importFromFiles(boardPath5,coloresPath5);
+        new MazeGUI3D(gameState5);
     }
 }
