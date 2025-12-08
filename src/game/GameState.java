@@ -1,7 +1,7 @@
 package game;
 
 import basicStructure.*;
-import logic.Direction;
+import basicStructure.Direction;
 import logic.Move;
 
 import java.util.*;
