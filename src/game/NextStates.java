@@ -1,6 +1,6 @@
 package game;
 
-import logic.Direction;
+import basicStructure.Direction;
 
 import java.util.HashMap;
 import java.util.Map;
