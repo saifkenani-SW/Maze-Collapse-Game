@@ -10,12 +10,6 @@ import java.io.*;
 public class MakeState {
 
     GameState gameState;
-
-    public GameState importFromFile(String filePath) throws IOException {
-         gameState= seed(filePath);
-         return gameState;
-    }
-
     public GameState importFromFiles(String boardFile, String colorsFile) throws IOException {
         GameState state = seed(boardFile);
         applyColors(state, colorsFile);
@@ -54,13 +48,11 @@ public class MakeState {
             Location location = null;
             for (int i = 0; i < help.length; i++) {
                 for (int j = 0; j < help[0].length; j++) {
-                    System.out.print(" " + help[i][j] + " ");
                     if (help[i][j].charAt(0) == 'S' || help[i][j].charAt(0) == 'P') {
                         location = new Location(i, j);
                     }
                     squares[i][j] = this.getSquareByRegex(help[i][j]);
                 }
-                System.out.println();
             }
             pyramid = new Pyramid(location, 0);
 
@@ -72,7 +64,6 @@ public class MakeState {
     }
 
     private Square getSquareByRegex(String c) {
-        Square square;
         char option = c.charAt(0);
         switch (option) {
             case 'P' -> {
