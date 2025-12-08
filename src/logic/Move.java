@@ -4,8 +4,6 @@ import basicStructure.*;
 import game.Board;
 import game.GameState;
 import game.Pyramid;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class Move {
@@ -14,6 +12,7 @@ public class Move {
 
 
     public Move(boolean requireCollapseBeforeEnd) {
+      //  this.requireCollapseBeforeEnd = requireCollapseBeforeEnd;
         this.requireCollapseBeforeEnd = false;
        // this.applyCollapsePhysics = requireCollapseBeforeEnd;
     }
@@ -46,90 +45,14 @@ public class Move {
         if (square.isLocked() && !pyramid.hasKey()) {
             return false;
         }
-        if (square.isEnd() && requireCollapseBeforeEnd && !canMoveHelper(board, pyramid)) {
+        if (square.isEnd() && requireCollapseBeforeEnd && !canMoveToEndHelper(board, pyramid)) {
             return false;
         }
-
-/*
-        switch (direction) {
-            case UP -> {
-                row--;
-                if (row < 0) {
-                    System.out.println("خارج الرقعه");
-                    return false;
-                }
-                Square square = grid[row][column];
-                if (square.getState() == SquareState.COLLAPSED || square.getType() == SquareType.VOID) {
-                    System.out.println("المربع منهار");
-                    return false;
-                }
-                if (square.isLocked() && !pyramid.hasKey()) {
-                    System.out.println("المربع مقفول ولا تملك مفتاح");
-                    return false;
-                }
-                return true;
-            }
-            case DOWN -> {
-                row++;
-                if (row >= grid.length) {
-                    System.out.println("خارج الرقعه");
-                    return false;
-                }
-                Square square = grid[row][column];
-                if (square.getState() == SquareState.COLLAPSED || square.getType() == SquareType.VOID) {
-                    System.out.println("المربع منهار");
-                    return false;
-                }
-                if (square.isLocked() && !pyramid.hasKey()) {
-                    System.out.println("المربع مقفول ولا تملك مفتاح");
-                    return false;
-                }
-
-                return true;
-            }
-            case LEFT -> {
-                column--;
-                if (column < 0) {
-                    System.out.println("خارج الرقعه");
-                    return false;
-                }
-                Square square = grid[row][column];
-                if (square.getState() == SquareState.COLLAPSED || square.getType() == SquareType.VOID) {
-                    System.out.println("المربع منهار");
-                    return false;
-                }
-                if (square.isLocked() && !pyramid.hasKey()) {
-                    System.out.println("المربع مقفول ولا تملك مفتاح");
-                    return false;
-                }
-
-                return true;
-            }
-            case RIGHT -> {
-                column++;
-                if (column >= grid[0].length) {
-                    System.out.println("خارج الرقعه");
-                    return false;
-                }
-                Square square = grid[row][column];
-                if (square.getState() == SquareState.COLLAPSED || square.getType() == SquareType.VOID) {
-                    System.out.println("المربع منهار");
-                    return false;
-                }
-                if (square.isLocked() && !pyramid.hasKey()) {
-                    System.out.println("المربع مقفول ولا تملك مفتاح");
-                    return false;
-                }
-
-                return true;
-            }
-        }
-*/
 
         return true;
     }
 
-    private boolean canMoveHelper(Board board, Pyramid pyramid) {
+    private boolean canMoveToEndHelper(Board board, Pyramid pyramid) {
         Square[][] grid = board.getGrid();
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
