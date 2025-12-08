@@ -1,7 +1,7 @@
 package ui;
 
 import game.GameState;
-import logic.Direction;
+import basicStructure.Direction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Frame مخصص لعرض تتبّع خوارزمية البحث.
- * يأخذ قائمة من GameState ويعرضها عبر Maze2DPanel خطوة بخطوة.
- *
- * ملاحظة: يحتوي على addStateAndRefresh(GameState) لاستخدام العرض التدريجي.
- */
 public class SearchFrame extends JFrame {
 
     private Maze2DPanel panel;
@@ -25,7 +19,6 @@ public class SearchFrame extends JFrame {
     private final JButton btnPlay = new JButton("Play ▶");
     private final JLabel lblIndex = new JLabel("0/0");
 
-    // states يمكن أن يكون null أو قائمة قابلة للتغيير
     private java.util.List<GameState> states;
     private int idx = 0;
 
@@ -81,7 +74,6 @@ public class SearchFrame extends JFrame {
 
         GameState st = states.get(idx);
         panel.setGameState(st);
-        // player direction preserved in GameState or set externally; default to UP
         panel.setPlayerDir(Direction.UP);
 
         lblIndex.setText((idx + 1) + "/" + states.size());
@@ -124,31 +116,19 @@ public class SearchFrame extends JFrame {
         playTimer.start();
     }
 
-    /**
-     * إضافة حالة جديدة إلى نهاية القائمة ثم عرضها فوراً.
-     * مفيد عندما تريد بث الحالات خطوة بخطوة أثناء عمل الخوارزمية.
-     */
     public void addStateAndRefresh(GameState s) {
         if (s == null) return;
         if (this.states == null) this.states = new java.util.ArrayList<>();
         this.states.add(s);
         this.idx = this.states.size() - 1;
-        // عرض الحالة المضافة
         SwingUtilities.invokeLater(this::updateView);
     }
-
-    /**
-     * استبدال حالات العرض بكامل القائمة الجديدة
-     */
     public void setStates(List<GameState> newStates) {
         this.states = newStates;
         this.idx = 0;
         SwingUtilities.invokeLater(this::updateView);
     }
 
-    /**
-     * استبدال الـ panel بسهولة
-     */
     public void replacePanel(Maze2DPanel newPanel) {
         SwingUtilities.invokeLater(() -> {
             getContentPane().remove(panel);
@@ -159,42 +139,27 @@ public class SearchFrame extends JFrame {
         });
     }
 
-    // ----------------------------
-    // الدوال المساعدة المضمّنة داخل SearchFrame
-    // ----------------------------
-
-    /**
-     * يعرض المسار الذي تم إيجاده تدريجيًا باستخدام javax.swing.Timer.
-     * هذه الدالة ثابتة (static) لتسهيل استخدامها كما في الكود الأصلي.
-     * @param endState حالة النهاية (منها يتم بناء المسار إلى البداية).
-     */
     public static void showUI(GameState endState) {
-        // 1. بناء المسار الكامل (مرتب من البداية إلى النهاية)
         final List<GameState> solutionPath = buildPath(endState);
         if (solutionPath.isEmpty()) return;
 
-        // 2. تشغيل إنشاء الإطار وعرضه على الـ EDT
         SwingUtilities.invokeLater(() -> {
             Maze2DPanel panel = new Maze2DPanel();
 
-            // إنشاء الإطار بقائمة فارغة لضمان أننا نضيف الحالات تدريجيًا
             SearchFrame frame = new SearchFrame(new ArrayList<>(), panel);
             frame.setVisible(true);
 
             final int delayMs = 500;
             final int size = solutionPath.size();
-            final int[] idx = {0}; // مؤشر الحالة الحالية
-
-            // استخدام Timer لإضافة الحالات تدريجيًا (يعمل على الـ EDT)
+            final int[] idx = {0};
             Timer t = new Timer(delayMs, ev -> {
                 if (idx[0] < size) {
                     GameState s = solutionPath.get(idx[0]);
 
-                    // addStateAndRefresh آمنة وتضيف الحالة ثم تُحدّث العرض
                     frame.addStateAndRefresh(s);
                     idx[0]++;
                 } else {
-                    ((Timer) ev.getSource()).stop(); // إيقاف Timer عند الانتهاء
+                    ((Timer) ev.getSource()).stop();
                 }
             });
             t.setInitialDelay(0);
@@ -202,9 +167,6 @@ public class SearchFrame extends JFrame {
         });
     }
 
-    /**
-     * تبني قائمة الحالات بالترتيب الصحيح (من البداية إلى النهاية).
-     */
     public static List<GameState> buildPath(GameState endState) {
         List<GameState> path = new ArrayList<>();
         GameState cur = endState;
