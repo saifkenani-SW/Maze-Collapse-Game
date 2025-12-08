@@ -2,7 +2,7 @@ package ui;
 
 import game.GameState;
 import game.Pyramid;
-import logic.Direction;
+import basicStructure.Direction;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -174,11 +174,6 @@ public class Maze2DPanel extends JPanel {
             images.put("stone", images.get("rock"));
         }
 
-        // لو بعض الصور ناقصة - لا نرسم بدائل هنا (كما طلبت) لكن نعرض ملخص في الـ console
-        System.out.println("[Maze2DPanel] loadImages summary:");
-        for (var k : imageFiles.keySet()) {
-            System.out.println("  " + k + " -> " + (images.containsKey(k) ? "OK" : "MISSING"));
-        }
     }
 
     // -------------------------
