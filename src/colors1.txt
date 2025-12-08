@@ -1,5 +1,5 @@
 R W W G Y
-W B G Y R
-G W B Y R
+W B G Y W
+G W B Y Y
 Y G R W BL
 W W W W W
