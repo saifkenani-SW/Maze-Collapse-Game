@@ -10,18 +10,12 @@ public enum Color {
     PINK(3),
     DARK(10);
 
-   // private final int complexity;
    private int complexity;
-
-    // Constructor
     Color(int complexity) {
         this.complexity = complexity;
     }
 
     public int getComplexity() {
         return complexity;
-    }
-    public void setComplexity(int complexity) {
-        this.complexity = complexity;
     }
 }
