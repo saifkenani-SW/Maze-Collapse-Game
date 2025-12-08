@@ -2,7 +2,7 @@ package algorithim;
 
 import game.GameState;
 import game.NextStates;
-import logic.Direction;
+import basicStructure.Direction;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -25,11 +25,10 @@ int numNodesGenerated=0;
         while (!stack.isEmpty()) {
 
             GameState state = stack.pop();
-            System.out.println(state);
             if (state.checkWining()) {
                 new Common(false).showUI(state);
 
-                System.out.println(new Common(true).getDirection(state));
+                new Common(true).showUI(state);
                 System.out.println("number of visited node is +"+ visited.size());// == numNodesVisited
                 // System.out.println("number of visited node is +"+ numNodesVisited);// == numNodesVisited
                 System.out.println("number of Generated node is +"+ numNodesGenerated);
