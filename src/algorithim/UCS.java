@@ -3,7 +3,7 @@ package algorithim;
 import basicStructure.Location;
 import basicStructure.Square;
 import game.*;
-import logic.Direction;
+import basicStructure.Direction;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ public class UCS {
                 continue;
             }
             if (current.checkWining()) {
-
+                System.out.println(bestCost.get(current));
                 new Common(false).showUI(current);
 
                 System.err.println("Solution found \n" +
