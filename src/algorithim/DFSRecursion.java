@@ -1,7 +1,7 @@
 package algorithim;
 
 import game.GameState;
-import logic.Direction;
+import basicStructure.Direction;
 
 import java.util.*;
 
@@ -30,7 +30,7 @@ public class DFSRecursion {
             if (addToVisited(state, successor)) {
                 GameState found = DFSSearch(successor);
                 if (found != null) {
-                    return found; // propagate the found state up the recursion
+                    return found;
                 }
             }
         }
