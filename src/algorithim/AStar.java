@@ -95,10 +95,8 @@ public class AStar {
         int keysNumber=board.getKeys().size();
         int locksNumber=board.getLocks().size();
         if ((locksNumber<pyramid.getNumberOfKey())||(keysNumber==0)||(locksNumber<=pyramid.getNumberOfKey()
-        ||(isLockInRectangle(board,pyramidLocation,endLocation)==0))) {
-           int row =Math.abs(pyramidLocation.getRow()-endLocation.getRow());
-           int col =Math.abs(pyramidLocation.getColumn()-endLocation.getColumn());
-
+        ||(isLockInRectangle(board,pyramidLocation,endLocation)==0)
+        ||(isLockInRectangle(board,pyramidLocation,endLocation)<=pyramid.getNumberOfKey()))) {
             return manhattan(pyramidLocation, endLocation);
         }
 
