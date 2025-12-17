@@ -1,6 +1,7 @@
 package algorithim;
 
 import basicStructure.Direction;
+import basicStructure.Has;
 import basicStructure.Location;
 import basicStructure.Square;
 import game.Board;
@@ -93,7 +94,8 @@ public class AStar {
         Location endLocation = board.getEndLocation();
         int keysNumber=board.getKeys().size();
         int locksNumber=board.getLocks().size();
-        if ((locksNumber<pyramid.getNumberOfKey())||(keysNumber==0)||(locksNumber<=pyramid.getNumberOfKey())) {
+        if ((locksNumber<pyramid.getNumberOfKey())||(keysNumber==0)||(locksNumber<=pyramid.getNumberOfKey()
+        ||(isLockInRectangle(board,pyramidLocation,endLocation)==0))) {
            int row =Math.abs(pyramidLocation.getRow()-endLocation.getRow());
            int col =Math.abs(pyramidLocation.getColumn()-endLocation.getColumn());
 
@@ -109,4 +111,32 @@ public class AStar {
     private int manhattan(Location location1, Location location2) {
         return Math.abs(location1.getRow() - location2.getRow()) + Math.abs(location1.getColumn() - location2.getColumn());
     }
+
+
+    private int isLockInRectangle(Board board,Location pyramidLocation,Location endLocation){
+        Square[][]grid= board.getGrid();
+        int scale=2;
+        int lowRow=Math.min(pyramidLocation.getRow()-scale,endLocation.getRow()-scale);
+        int maxRow=Math.max(pyramidLocation.getRow()+scale,endLocation.getRow()+scale);
+        int lowCol=Math.min(pyramidLocation.getColumn()-scale,endLocation.getColumn()-scale);
+        int maxCol=Math.max(pyramidLocation.getColumn()+scale,endLocation.getColumn()+scale);
+        int keysNumber=0;
+        int locksNumber=0;
+
+        for (int i = lowRow; i <=maxRow; i++) {
+            if (i<0||i>=grid.length)continue;
+            for (int j = lowCol; j <=maxCol; j++) {
+                if (j<0||j>=grid[0].length)continue;
+                if (grid[i][j].isLocked()){
+                    locksNumber++;
+                }
+                if (grid[i][j].getHas()== Has.KEY){
+                    keysNumber++;
+                }
+            }
+        }
+
+        return locksNumber;
+    }
+
 }
