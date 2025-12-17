@@ -98,7 +98,11 @@ public class AStar {
         }
         else {
             Location nearestKey = findNearest(endLocation, board.getKeys());
+             // return manhattan(pyramidLocation, nearestKey) + manhattan(nearestKey, endLocation);
+
+            Location bestKeyLocation=getBestKeyLocation(board,pyramidLocation,endLocation);
             return manhattan(pyramidLocation, nearestKey) + manhattan(nearestKey, endLocation);
+
         }
     }
 
@@ -145,6 +149,21 @@ public class AStar {
             }
         }
         return nearest;
+    }
+
+    private Location getBestKeyLocation(Board board,Location pyramidLocation,Location endLocation){
+        Location bestKeyLocation = null;
+        int minTotalDistance = Integer.MAX_VALUE;
+
+        for (Location key : board.getKeys()) {
+            int totalDist = manhattan(pyramidLocation, key) + manhattan(key, endLocation);
+
+            if (totalDist < minTotalDistance) {
+                minTotalDistance = totalDist;
+                bestKeyLocation = key;
+            }
+        }
+        return bestKeyLocation;
     }
 
 }
