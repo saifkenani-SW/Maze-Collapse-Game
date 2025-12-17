@@ -93,7 +93,7 @@ public class AStar {
         Location endLocation = board.getEndLocation();
         int keysNumber=board.getKeys().size();
         int locksNumber=board.getLocks().size();
-        if ((locksNumber<pyramid.getNumberOfKey())||(keysNumber==0)) {
+        if ((locksNumber<pyramid.getNumberOfKey())||(keysNumber==0)||(locksNumber<=pyramid.getNumberOfKey())) {
            int row =Math.abs(pyramidLocation.getRow()-endLocation.getRow());
            int col =Math.abs(pyramidLocation.getColumn()-endLocation.getColumn());
 
