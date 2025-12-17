@@ -8,10 +8,7 @@ import game.Board;
 import game.GameState;
 import game.Pyramid;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStar {
 
@@ -99,11 +96,10 @@ public class AStar {
         ||(isLockInRectangle(board,pyramidLocation,endLocation)<=pyramid.getNumberOfKey()))) {
             return manhattan(pyramidLocation, endLocation);
         }
-
-
-
-
-        return 0;
+        else {
+            Location nearestKey = findNearest(endLocation, board.getKeys());
+            return manhattan(pyramidLocation, nearestKey) + manhattan(nearestKey, endLocation);
+        }
     }
 
     private int manhattan(Location location1, Location location2) {
@@ -135,6 +131,20 @@ public class AStar {
         }
 
         return locksNumber;
+    }
+
+    private Location findNearest(Location current, List<Location> locations) {
+        Location nearest = locations.get(0);
+        int minDist = manhattan(current, nearest);
+
+        for (Location location : locations) {
+            int distance = manhattan(current, location);
+            if (distance < minDist) {
+                minDist = distance;
+                nearest = location;
+            }
+        }
+        return nearest;
     }
 
 }
