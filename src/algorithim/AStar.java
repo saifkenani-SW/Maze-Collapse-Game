@@ -101,7 +101,7 @@ public class AStar {
              // return manhattan(pyramidLocation, nearestKey) + manhattan(nearestKey, endLocation);
 
             Location bestKeyLocation=getBestKeyLocation(board,pyramidLocation,endLocation);
-            return manhattan(pyramidLocation, nearestKey) + manhattan(nearestKey, endLocation);
+            return manhattan(pyramidLocation, bestKeyLocation) + manhattan(bestKeyLocation, endLocation);
 
         }
     }
